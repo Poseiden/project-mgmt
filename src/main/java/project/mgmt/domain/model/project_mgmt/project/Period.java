@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Calendar;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Project {
-    private String id;
-    private String name;
-    private String locationId;
-    private List<SubProject> subProjects;
+@AllArgsConstructor
+public class Period {
+    private Calendar start;
+    private Calendar end;
 }

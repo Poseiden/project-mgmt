@@ -9,11 +9,10 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Project {
+@AllArgsConstructor
+public class ClientProject extends Project {
     private String id;
-    private String name;
-    private String locationId;
-    private List<SubProject> subProjects;
+    private List<String> assignmentIdList;
+    private Period period;
 }

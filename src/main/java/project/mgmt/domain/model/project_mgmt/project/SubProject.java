@@ -5,15 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class Project {
+@AllArgsConstructor
+public class SubProject {
     private String id;
     private String name;
-    private String locationId;
-    private List<SubProject> subProjects;
 }
