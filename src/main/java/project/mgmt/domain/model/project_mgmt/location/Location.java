@@ -1,4 +1,4 @@
-package project.mgmt.domain.model.project_mgmt.project;
+package project.mgmt.domain.model.project_mgmt.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Project {
+public class Location {
     private String id;
-    private String name;
-    private String locationId;
 }
