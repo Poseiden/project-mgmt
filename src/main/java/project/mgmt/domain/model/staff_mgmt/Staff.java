@@ -1,4 +1,4 @@
-package project.mgmt.domain.model.project_mgmt.project;
+package project.mgmt.domain.model.staff_mgmt;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Project {
+public class Staff {
     private String id;
-    private String name;
-    private String locationId;
-    private List<SubProject> subProjects;
-    private String manager;
+    private List<String> assignmentIdList;
+    private List<String> projectIdList;
 }
