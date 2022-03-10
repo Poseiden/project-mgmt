@@ -17,4 +17,5 @@ public class Project {
     private String locationId;
     private List<SubProject> subProjects;
     private String manager;
+    private String contractId;
 }

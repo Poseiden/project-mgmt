@@ -1,4 +1,4 @@
-package project.mgmt.domain.model.project_mgmt.account;
+package project.mgmt.domain.model.project_mgmt.contract;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +11,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Contract {
     private String id;
-    private String manager;
-    private List<String> contractIdList;
+    private String accountId;
+    private List<String> projectIdList;
 }
