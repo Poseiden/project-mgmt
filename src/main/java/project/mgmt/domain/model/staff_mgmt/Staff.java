@@ -15,4 +15,5 @@ public class Staff {
     private String id;
     private List<String> assignmentIdList;
     private List<String> projectIdList;
+    private List<String> accountIdList;
 }
