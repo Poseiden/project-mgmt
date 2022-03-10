@@ -12,4 +12,5 @@ import lombok.Setter;
 public class SubProject {
     private String id;
     private String name;
+    private String subProjectTypeId;
 }
