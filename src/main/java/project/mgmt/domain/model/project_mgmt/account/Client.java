@@ -13,6 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Client {
     private String id;
-    private String manager;
+    private String clientManager;
     private List<String> contractIdList;
 }
