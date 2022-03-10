@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Client {
     private String id;
     private String manager;
     private List<String> contractIdList;
