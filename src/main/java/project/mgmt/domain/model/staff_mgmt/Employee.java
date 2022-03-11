@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Staff {
+public class Employee {
     private String id;
     private List<String> assignmentIdList;
     private List<String> projectIdList;
