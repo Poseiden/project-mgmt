@@ -12,10 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.util.List;
 
 @Getter
@@ -24,21 +21,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "project")
-public class ProjectDBO {
+public class ContractDBO {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Generated(GenerationTime.INSERT)
     private String id;
-    private String name;
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private LocationDBO locationId;
-    @OneToMany(mappedBy = "projectDBO")
-    private List<SubProjectDBO> subProjectDBOList;
 
-    @ManyToOne
-    @JoinColumn(name = "contract_id")
-    private ContractDBO contractDBO;
+    @OneToMany(mappedBy = "contractDBO")
+    private List<ProjectDBO> projectDBOList;
 }
