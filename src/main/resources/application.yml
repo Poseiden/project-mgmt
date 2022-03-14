@@ -1,0 +1,15 @@
+server:
+    port: 8081
+spring:
+    profiles:
+      active: development
+    datasource:
+      url: jdbc:mysql://localhost:23306/project_mgmt
+      username: root
+      password: admin
+    flyway:
+      enabled: true
+
+    jpa:
+      hibernate:
+        ddl-auto: none
