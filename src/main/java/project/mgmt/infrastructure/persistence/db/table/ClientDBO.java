@@ -31,4 +31,7 @@ public class ClientDBO {
 
     @OneToMany(mappedBy = "clientDBO")
     private List<ContractDBO> contractDBOList;
+
+    @OneToMany(mappedBy = "clientDBO")
+    private List<ProjectDBO> projectDBOList;
 }

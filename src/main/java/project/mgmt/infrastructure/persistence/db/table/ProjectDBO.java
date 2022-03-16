@@ -41,4 +41,8 @@ public class ProjectDBO {
     @ManyToOne
     @JoinColumn(name = "contract_id")
     private ContractDBO contractDBO;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private ClientDBO clientDBO;
 }
