@@ -12,7 +12,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -23,17 +22,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class ContractDBO {
+public class ClientDBO {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Generated(GenerationTime.INSERT)
     private String id;
 
-    @OneToMany(mappedBy = "contractDBO")
-    private List<ProjectDBO> projectDBOList;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private ClientDBO clientDBO;
+    @OneToMany(mappedBy = "clientDBO")
+    private List<ContractDBO> contractDBOList;
 }
