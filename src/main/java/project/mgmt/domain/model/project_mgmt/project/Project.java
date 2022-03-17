@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import project.mgmt.domain.model.project_mgmt.location.Location;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class Project {
     private String id;
     private String name;
-    private String locationId;
+    private Location location;
     private List<SubProject> subProjects;
     private String projectManager;
     private String contractId;
