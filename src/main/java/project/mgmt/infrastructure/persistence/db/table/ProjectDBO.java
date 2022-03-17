@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Calendar;
 import java.util.List;
 
 @Getter
@@ -51,4 +52,6 @@ public class ProjectDBO {
     private ClientDBO clientDBO;
 
     private String projectManager;
+    private Calendar start;
+    private Calendar end;
 }
