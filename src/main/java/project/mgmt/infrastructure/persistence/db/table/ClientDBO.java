@@ -12,7 +12,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -34,4 +33,6 @@ public class ClientDBO {
 
     @OneToMany(mappedBy = "clientDBO")
     private List<ProjectDBO> projectDBOList;
+
+    private String clientManager;
 }

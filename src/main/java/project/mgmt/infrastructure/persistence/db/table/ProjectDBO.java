@@ -49,4 +49,6 @@ public class ProjectDBO {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientDBO clientDBO;
+
+    private String projectManager;
 }
