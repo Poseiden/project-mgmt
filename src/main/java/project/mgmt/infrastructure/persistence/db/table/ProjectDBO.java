@@ -8,8 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
+import project.mgmt.domain.model.project_mgmt.location.Location;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -32,9 +35,10 @@ public class ProjectDBO {
     @Generated(GenerationTime.INSERT)
     private String id;
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private LocationDBO locationId;
+
+    @Enumerated(EnumType.STRING)
+    private Location location;
+
     @OneToMany(mappedBy = "projectDBO")
     private List<SubProjectDBO> subProjectDBOList;
 
