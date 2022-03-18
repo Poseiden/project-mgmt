@@ -19,4 +19,5 @@ public class Project {
     private List<SubProject> subProjects;
     private String projectManager;
     private String contractId;
+    private String clientId;
 }

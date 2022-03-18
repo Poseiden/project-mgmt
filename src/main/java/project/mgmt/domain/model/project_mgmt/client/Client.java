@@ -15,4 +15,5 @@ public class Client {
     private String id;
     private String clientManager;
     private List<String> contractIdList;
+    private List<String> projectIdList;
 }
