@@ -13,7 +13,6 @@ import project.mgmt.domain.model.project_mgmt.project.Project;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
