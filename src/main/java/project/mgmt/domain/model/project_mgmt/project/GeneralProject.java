@@ -10,5 +10,4 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GeneralProject extends Project {
-    private String id;
 }
