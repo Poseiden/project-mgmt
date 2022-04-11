@@ -29,11 +29,14 @@ dependencies {
 
     implementation 'mysql:mysql-connector-java:8.0.28'
 
+    implementation 'com.alibaba:fastjson:1.2.80'
+
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor "org.projectlombok:lombok:1.18.22"
 
 }
 
