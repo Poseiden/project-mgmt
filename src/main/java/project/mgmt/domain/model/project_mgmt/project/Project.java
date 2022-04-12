@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 import project.mgmt.domain.model.project_mgmt.location.Location;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,8 +27,9 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @NoArgsConstructor
 @Entity
 @Inheritance(strategy = SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
 //todo add a field to sign different table and abstract
-public class Project {
+public abstract class Project {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")

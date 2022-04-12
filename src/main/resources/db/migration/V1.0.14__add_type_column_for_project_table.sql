@@ -1,0 +1,1 @@
+alter table project_mgmt.project ADD COLUMN type varchar(10)
