@@ -28,7 +28,6 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Entity
 @Inheritance(strategy = SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
-//todo add a field to sign different table and abstract
 public abstract class Project {
     @Id
     @GeneratedValue(generator = "uuid")
