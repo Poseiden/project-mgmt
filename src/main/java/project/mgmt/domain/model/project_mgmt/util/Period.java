@@ -1,15 +1,13 @@
-package project.mgmt.domain.model.project_mgmt.project;
+package project.mgmt.domain.model.project_mgmt.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable

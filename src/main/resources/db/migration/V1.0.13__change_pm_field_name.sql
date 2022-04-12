@@ -1,0 +1,1 @@
+alter table project_mgmt.project RENAME COLUMN project_manager TO project_manager_id;

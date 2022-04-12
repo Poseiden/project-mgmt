@@ -7,16 +7,10 @@ import lombok.Setter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
-import project.mgmt.domain.model.project_mgmt.client.Client;
-import project.mgmt.domain.model.project_mgmt.project.Project;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,10 +24,5 @@ public class Contract {
     @Generated(GenerationTime.INSERT)
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
-
-    @OneToMany(mappedBy = "contract")
-    private List<Project> projects;
+    private String clientId;
 }

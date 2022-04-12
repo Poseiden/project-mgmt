@@ -33,7 +33,7 @@ public class ProjectControllerTest extends APIBaseTest {
         ClientProject clientProject = new ClientProject();
         clientProject.setName("project name");
         clientProject.setLocation(CN);
-        clientProject.setProjectManager("manager");
+        clientProject.setProjectManagerId("manager");
         SubProject subProject = new SubProject();
         subProject.setName("this is sub project");
         clientProject.setSubProjects(Lists.newArrayList(subProject));

@@ -8,6 +8,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 import project.mgmt.domain.model.project_mgmt.project.ClientProject;
+import project.mgmt.domain.model.project_mgmt.util.Period;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
