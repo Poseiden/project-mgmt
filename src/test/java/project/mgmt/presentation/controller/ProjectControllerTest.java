@@ -3,11 +3,13 @@ package project.mgmt.presentation.controller;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.assertj.core.util.Lists;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import project.mgmt.base.APIBaseTest;
-import project.mgmt.domain.model.project_mgmt.project.Project;
+import project.mgmt.domain.model.project_mgmt.project.ClientProject;
+import project.mgmt.domain.model.project_mgmt.project.SubProject;
 import project.mgmt.infrastructure.persistence.hibernate.ProjectRepoJPA;
 
 import java.util.Map;
@@ -26,21 +28,20 @@ public class ProjectControllerTest extends APIBaseTest {
 
     @Test
     @Ignore
-    //todo to finish
     public void should_return_empty_list_when_project_id_list_exists() throws Exception {
         //given
-        Project project = new Project();
-        project.setName("project name");
-        project.setLocation(CN);
-        project.setProjectManager("manager");
-//        project.setClient();
-//        project.setContract();
-//        project.setSubProjects();
+        ClientProject clientProject = new ClientProject();
+        clientProject.setName("project name");
+        clientProject.setLocation(CN);
+        clientProject.setProjectManager("manager");
+        SubProject subProject = new SubProject();
+        subProject.setName("this is sub project");
+        clientProject.setSubProjects(Lists.newArrayList(subProject));
 
-//        this.projectRepoJPA.save()
+        ClientProject saved = this.projectRepoJPA.save(clientProject);
 
         Map<String, Set<String>> projectIdParams = Maps.newHashMap();
-        projectIdParams.put("project id", Sets.newHashSet("sub project id"));
+        projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId()));
 
         //when
         String resultStr = this.mockMvc.perform(get("/projects/batch")
