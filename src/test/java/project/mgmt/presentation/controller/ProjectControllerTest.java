@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import project.mgmt.base.APIBaseTest;
 import project.mgmt.domain.model.project_mgmt.project.ClientProject;
 import project.mgmt.domain.model.project_mgmt.project.SubProject;
+import project.mgmt.infrastructure.persistence.hibernate.ClientProjectRepoJPA;
 import project.mgmt.infrastructure.persistence.hibernate.ProjectRepoJPA;
 
 import java.util.Map;
 import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,6 +26,8 @@ public class ProjectControllerTest extends APIBaseTest {
 
     @Autowired
     private ProjectRepoJPA projectRepoJPA;
+    @Autowired
+    private ClientProjectRepoJPA clientProjectRepoJPA;
 
     @Test
     public void should_return_empty_list_when_project_id_list_exists() throws Exception {
@@ -49,5 +53,33 @@ public class ProjectControllerTest extends APIBaseTest {
 
         //then
         assertTrue(JSON.parseObject(resultStr).isEmpty());
+    }
+
+    @Test
+    public void should_return_not_exists_project_id_when_project_id_not_exists() throws Exception {
+        //given
+        ClientProject clientProject = new ClientProject();
+        clientProject.setName("project name");
+        clientProject.setLocation(CN);
+        clientProject.setProjectManagerId("manager");
+        SubProject subProject = new SubProject();
+        subProject.setName("this is sub project");
+        clientProject.setSubProjects(Lists.newArrayList(subProject));
+
+        ClientProject saved = this.clientProjectRepoJPA.save(clientProject);
+
+        Map<String, Set<String>> projectIdParams = Maps.newHashMap();
+        String notExistSubProjectId = "not exists sub project id";
+        projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId(), notExistSubProjectId));
+
+        //when
+        String resultStr = this.mockMvc.perform(get("/projects/batch")
+                .contentType(APPLICATION_JSON)
+                .content(JSON.toJSONString(projectIdParams)))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        //then
+        assertTrue(JSON.parseObject(resultStr).containsKey(clientProject.getId()));
+        assertEquals(notExistSubProjectId, JSON.parseObject(resultStr).getJSONArray(clientProject.getId()).getString(0));
     }
 }

@@ -7,15 +7,12 @@ import lombok.Setter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
-import project.mgmt.domain.model.project_mgmt.project.ClientProject;
 import project.mgmt.domain.model.project_mgmt.util.Period;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -31,9 +28,7 @@ public class Assignment {
     private String assignee;
     private String projectRole;
     private int rate;
-    @ManyToOne
-    @JoinColumn(name = "client_project_id")
-    private ClientProject clientProject;
+    private String clientProjectId;
     @Embedded
     private Period period;
 }
