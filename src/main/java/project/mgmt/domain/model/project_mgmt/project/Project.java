@@ -18,7 +18,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Set;
 
+import static java.util.stream.Collectors.toSet;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Getter
@@ -42,4 +44,10 @@ public abstract class Project {
     private String contractId;
     private String projectManagerId;
     private String clientId;
+
+    public Set<String> getSubProjectIds() {
+        return this.subProjects.stream()
+                .map(SubProject::getId)
+                .collect(toSet());
+    }
 }
