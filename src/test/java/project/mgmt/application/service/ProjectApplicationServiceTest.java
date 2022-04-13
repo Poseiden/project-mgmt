@@ -10,7 +10,6 @@ import project.mgmt.domain.model.project_mgmt.project.Project;
 import project.mgmt.domain.model.project_mgmt.project.ProjectRepository;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
@@ -33,7 +32,10 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
         Project existInDB = new ClientProject();
         existInDB.setId(projectId);
 
-        when(projectRepository.findById(projectId)).thenReturn(Optional.of(existInDB));
+        Map<String, Set<String>> projectSubProjectIdMappingInDB = Maps.newHashMap();
+        projectSubProjectIdMappingInDB.put(projectId, Sets.newHashSet(subProjectId1, subProjectId2));
+        when(projectRepository.getProjectSubProjectIdMappingByIds(Sets.newHashSet(projectId)))
+                .thenReturn(Maps.newHashMap(projectSubProjectIdMappingInDB));
         ProjectApplicationService projectApplicationService = new ProjectApplicationService(projectRepository);
 
         //when
@@ -52,7 +54,8 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
         String subProjectId2 = "sub_project_id2";
         projectIds.put(notExistsProjectId, Sets.newHashSet(subProjectId1, subProjectId2));
 
-        when(projectRepository.findById(notExistsProjectId)).thenReturn(Optional.empty());
+        when(projectRepository.getProjectSubProjectIdMappingByIds(Sets.newHashSet(notExistsProjectId)))
+                .thenReturn(Maps.newHashMap());
         ProjectApplicationService projectApplicationService =
                 new ProjectApplicationService(this.projectRepository);
 

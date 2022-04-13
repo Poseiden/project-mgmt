@@ -11,6 +11,7 @@ import java.util.Set;
 @RestController
 public class ProjectController {
 
+    //todo change to restful uri
     @GetMapping("/projects/batch")
     public Map<String, Set<String>> checkProjectExists(@RequestBody Map<String, Set<String>> projectIds) {
         return Maps.newHashMap();
