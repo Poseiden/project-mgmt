@@ -27,7 +27,6 @@ public class ProjectControllerTest extends APIBaseTest {
     private ProjectRepoJPA projectRepoJPA;
 
     @Test
-    @Ignore
     public void should_return_empty_list_when_project_id_list_exists() throws Exception {
         //given
         ClientProject clientProject = new ClientProject();
