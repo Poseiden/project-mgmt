@@ -30,10 +30,10 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
         String subProjectId2 = "sub_project_id2";
         projectIds.put(projectId, Sets.newHashSet(subProjectId1, subProjectId2));
 
-        Project project = new ClientProject();
-        project.setId(projectId);
+        Project existInDB = new ClientProject();
+        existInDB.setId(projectId);
 
-        when(projectRepository.findById(projectId)).thenReturn(Optional.of(project));
+        when(projectRepository.findById(projectId)).thenReturn(Optional.of(existInDB));
         ProjectApplicationService projectApplicationService = new ProjectApplicationService(projectRepository);
 
         //when
