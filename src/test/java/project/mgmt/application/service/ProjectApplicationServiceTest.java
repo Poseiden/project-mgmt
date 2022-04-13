@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -67,5 +68,31 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
         assertEquals(1, actual.size());
         assertTrue(actual.get(notExistsProjectId).contains(subProjectId1));
         assertTrue(actual.get(notExistsProjectId).contains(subProjectId2));
+    }
+
+    @Test
+    public void should_only_return_sub_project_id_which_not_exists_when_sub_project_not_exists() {
+        //given
+        Map<String, Set<String>> projectIds = Maps.newHashMap();
+        String projectId = "project_id";
+        String subProjectId = "sub_project_id";
+        String notExistsSubProjectId = "not_exists_sub_project_id";
+        projectIds.put(projectId, Sets.newHashSet(subProjectId, notExistsSubProjectId));
+
+        Map<String, Set<String>> existsInDB = Maps.newHashMap();
+        existsInDB.put(projectId, Sets.newHashSet(subProjectId));
+        when(projectRepository.getProjectSubProjectIdMappingByIds(Sets.newHashSet(projectId)))
+                .thenReturn(existsInDB);
+
+        ProjectApplicationService projectApplicationService =
+                new ProjectApplicationService(this.projectRepository);
+
+        //when
+        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds);
+
+        //then
+        assertEquals(1, actual.size());
+        assertTrue(actual.get(projectId).contains(notExistsSubProjectId));
+        assertFalse(actual.get(projectId).contains(subProjectId));
     }
 }

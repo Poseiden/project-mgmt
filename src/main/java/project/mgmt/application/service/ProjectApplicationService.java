@@ -15,14 +15,18 @@ public class ProjectApplicationService {
         this.projectRepository = projectRepository;
     }
 
-    public Map<String, Set<String>> checkProjectExists(Map<String, Set<String>> projectIds) {
+    public Map<String, Set<String>> checkProjectExists(Map<String, Set<String>> projectIdParam) {
         //planB: project and subproject mapping data can be stored in redis
 
         Map<String, Set<String>> result = Maps.newHashMap();
-        Map<String, Set<String>> existInDB = this.projectRepository.getProjectSubProjectIdMappingByIds(projectIds.keySet());
+        Map<String, Set<String>> existInDB = this.projectRepository.getProjectSubProjectIdMappingByIds(projectIdParam.keySet());
 
-        projectIds.forEach((projectId, subProjectIds) -> {
-            if (!existInDB.containsKey(projectId)) {
+        projectIdParam.forEach((projectId, subProjectIds) -> {
+            if (existInDB.containsKey(projectId)) {
+                Set<String> subProjectExistInDB = existInDB.get(projectId);
+                subProjectIds.removeIf(subProjectExistInDB::contains);
+                result.put(projectId, subProjectIds);
+            } else {
                 result.put(projectId, subProjectIds);
             }
         });
