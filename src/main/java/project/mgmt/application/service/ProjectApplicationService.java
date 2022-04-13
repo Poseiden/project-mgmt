@@ -22,12 +22,15 @@ public class ProjectApplicationService {
         Map<String, Set<String>> existInDB = this.projectRepository.getProjectSubProjectIdMappingByIds(projectIdParam.keySet());
 
         projectIdParam.forEach((projectId, subProjectIds) -> {
-            if (existInDB.containsKey(projectId)) {
-                Set<String> subProjectExistInDB = existInDB.get(projectId);
-                subProjectIds.removeIf(subProjectExistInDB::contains);
+
+            if (!existInDB.containsKey(projectId)) {
                 result.put(projectId, subProjectIds);
             } else {
-                result.put(projectId, subProjectIds);
+                Set<String> subProjectExistInDB = existInDB.get(projectId);
+                if (!subProjectIds.equals(subProjectExistInDB)) {
+                    subProjectIds.removeIf(subProjectExistInDB::contains);
+                    result.put(projectId, subProjectIds);
+                }
             }
         });
         return result;
