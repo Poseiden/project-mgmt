@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import project.mgmt.application.dto.VerifyProjectExistResponse;
 import project.mgmt.application.service.ProjectApplicationService;
-import project.mgmt.infrastructure.persistence.hibernate.ProjectRepoJPA;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,11 +15,9 @@ import java.util.Set;
 @RestController
 public class ProjectController {
     private final ProjectApplicationService projectApplicationService;
-    private final ProjectRepoJPA projectRepoJPA;
 
-    public ProjectController(ProjectApplicationService projectApplicationService, ProjectRepoJPA projectRepoJPA) {
+    public ProjectController(ProjectApplicationService projectApplicationService) {
         this.projectApplicationService = projectApplicationService;
-        this.projectRepoJPA = projectRepoJPA;
     }
 
     //todo change to restful uri
