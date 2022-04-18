@@ -40,7 +40,7 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
         ProjectApplicationService projectApplicationService = new ProjectApplicationService(projectRepository);
 
         //when
-        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds);
+        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds).getNotExistsProjectIds();
 
         //then
         assertTrue(actual.entrySet().isEmpty());
@@ -61,7 +61,7 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
                 new ProjectApplicationService(this.projectRepository);
 
         //when
-        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds);
+        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds).getNotExistsProjectIds();
 
         //then
         assertTrue(actual.containsKey(notExistsProjectId));
@@ -88,7 +88,7 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
                 new ProjectApplicationService(this.projectRepository);
 
         //when
-        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds);
+        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds).getNotExistsProjectIds();
 
         //then
         assertEquals(1, actual.size());

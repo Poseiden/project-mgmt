@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 import project.mgmt.domain.model.project_mgmt.location.Location;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -39,7 +40,7 @@ public abstract class Project {
     private String name;
     @Enumerated(EnumType.STRING)
     private Location location;
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<SubProject> subProjects;
     private String contractId;
     private String projectManagerId;

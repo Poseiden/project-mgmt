@@ -17,7 +17,6 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static project.mgmt.domain.model.project_mgmt.location.Location.CN;
@@ -38,6 +37,7 @@ public class ProjectControllerTest extends APIBaseTest {
         clientProject.setProjectManagerId("manager");
         SubProject subProject = new SubProject();
         subProject.setName("this is sub project");
+        subProject.setProject(clientProject);
         clientProject.setSubProjects(Lists.newArrayList(subProject));
 
         ClientProject saved = this.projectRepoJPA.save(clientProject);
@@ -46,13 +46,12 @@ public class ProjectControllerTest extends APIBaseTest {
         projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId()));
 
         //when
-        String resultStr = this.mockMvc.perform(get("/projects/batch")
-                .contentType(APPLICATION_JSON)
-                .content(JSON.toJSONString(projectIdParams)))
+        String resultStr = this.mockMvc.perform(get("/projects/batch?projects={projects}",
+                JSON.toJSONString(projectIdParams)))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         //then
-        assertTrue(JSON.parseObject(resultStr).isEmpty());
+        assertTrue(JSON.parseObject(resultStr).getJSONObject("notExistsProjectIds").isEmpty());
     }
 
     @Test
@@ -73,13 +72,12 @@ public class ProjectControllerTest extends APIBaseTest {
         projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId(), notExistSubProjectId));
 
         //when
-        String resultStr = this.mockMvc.perform(get("/projects/batch")
-                .contentType(APPLICATION_JSON)
-                .content(JSON.toJSONString(projectIdParams)))
+        String resultStr = this.mockMvc.perform(get("/projects/batch?projects={projects}",
+                JSON.toJSONString(projectIdParams)))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         //then
-        assertTrue(JSON.parseObject(resultStr).containsKey(clientProject.getId()));
-        assertEquals(notExistSubProjectId, JSON.parseObject(resultStr).getJSONArray(clientProject.getId()).getString(0));
+        assertTrue(JSON.parseObject(resultStr).getJSONObject("notExistsProjectIds").containsKey(clientProject.getId()));
+        assertEquals(notExistSubProjectId, JSON.parseObject(resultStr).getJSONObject("notExistsProjectIds").getJSONArray(clientProject.getId()).getString(0));
     }
 }
