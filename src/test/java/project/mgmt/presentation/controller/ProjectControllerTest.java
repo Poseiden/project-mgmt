@@ -46,7 +46,7 @@ public class ProjectControllerTest extends APIBaseTest {
         projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId()));
 
         //when
-        String resultStr = this.mockMvc.perform(get("/projects/batch?projects={projects}",
+        String resultStr = this.mockMvc.perform(get("/projects/invalid-project-ids?projects={projects}",
                 JSON.toJSONString(projectIdParams)))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
@@ -72,7 +72,7 @@ public class ProjectControllerTest extends APIBaseTest {
         projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId(), notExistSubProjectId));
 
         //when
-        String resultStr = this.mockMvc.perform(get("/projects/batch?projects={projects}",
+        String resultStr = this.mockMvc.perform(get("/projects/invalid-project-ids?projects={projects}",
                 JSON.toJSONString(projectIdParams)))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 

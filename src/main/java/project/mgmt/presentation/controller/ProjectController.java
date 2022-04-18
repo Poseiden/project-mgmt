@@ -20,8 +20,7 @@ public class ProjectController {
         this.projectApplicationService = projectApplicationService;
     }
 
-    //todo change to restful uri
-    @GetMapping("/projects/batch")
+    @GetMapping("/projects/invalid-project-ids")
     public VerifyProjectExistResponse checkProjectExists(@RequestParam("projects") String projects) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         TypeReference<Map<String, Set<String>>> typeRef
