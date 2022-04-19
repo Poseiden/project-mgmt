@@ -23,6 +23,6 @@ public class Contract {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Generated(GenerationTime.INSERT)
     private String id;
-
+    private String name;
     private String clientId;
 }
