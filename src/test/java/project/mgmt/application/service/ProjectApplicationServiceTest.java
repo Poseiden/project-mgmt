@@ -4,17 +4,19 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 import org.mockito.Mock;
+import project.mgmt.application.dto.VerifyProjectExistDTO;
 import project.mgmt.base.UnitBaseTest;
 import project.mgmt.domain.model.project_mgmt.project.ClientProject;
 import project.mgmt.domain.model.project_mgmt.project.Project;
 import project.mgmt.domain.model.project_mgmt.project.ProjectRepository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.when;
 
 public class ProjectApplicationServiceTest extends UnitBaseTest {
@@ -40,10 +42,10 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
         ProjectApplicationService projectApplicationService = new ProjectApplicationService(projectRepository);
 
         //when
-        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds).getNotExistsProjectIds();
+        List<VerifyProjectExistDTO> actual = projectApplicationService.checkProjectExists(projectIds);
 
         //then
-        assertTrue(actual.entrySet().isEmpty());
+        assertTrue(actual.isEmpty());
     }
 
     @Test
@@ -61,13 +63,13 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
                 new ProjectApplicationService(this.projectRepository);
 
         //when
-        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds).getNotExistsProjectIds();
+        List<VerifyProjectExistDTO> actual = projectApplicationService.checkProjectExists(projectIds);
 
         //then
-        assertTrue(actual.containsKey(notExistsProjectId));
+        assertEquals(notExistsProjectId, actual.get(0).getProjectId());
         assertEquals(1, actual.size());
-        assertTrue(actual.get(notExistsProjectId).contains(subProjectId1));
-        assertTrue(actual.get(notExistsProjectId).contains(subProjectId2));
+        assertTrue(actual.get(0).getSubprojectIds().contains(subProjectId1));
+        assertTrue(actual.get(0).getSubprojectIds().contains(subProjectId2));
     }
 
     @Test
@@ -88,11 +90,11 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
                 new ProjectApplicationService(this.projectRepository);
 
         //when
-        Map<String, Set<String>> actual = projectApplicationService.checkProjectExists(projectIds).getNotExistsProjectIds();
+        List<VerifyProjectExistDTO> actual = projectApplicationService.checkProjectExists(projectIds);
 
         //then
         assertEquals(1, actual.size());
-        assertTrue(actual.get(projectId).contains(notExistsSubProjectId));
-        assertFalse(actual.get(projectId).contains(subProjectId));
+        assertTrue(actual.get(0).getSubprojectIds().contains(notExistsSubProjectId));
+        assertFalse(actual.get(0).getSubprojectIds().contains(subProjectId));
     }
 }

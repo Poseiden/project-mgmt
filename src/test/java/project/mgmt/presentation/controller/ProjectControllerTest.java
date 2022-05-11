@@ -51,7 +51,7 @@ public class ProjectControllerTest extends APIBaseTest {
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         //then
-        assertTrue(JSON.parseObject(resultStr).getJSONObject("notExistsProjectIds").isEmpty());
+        assertTrue(JSON.parseArray(resultStr).isEmpty());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class ProjectControllerTest extends APIBaseTest {
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         //then
-        assertTrue(JSON.parseObject(resultStr).getJSONObject("notExistsProjectIds").containsKey(clientProject.getId()));
-        assertEquals(notExistSubProjectId, JSON.parseObject(resultStr).getJSONObject("notExistsProjectIds").getJSONArray(clientProject.getId()).getString(0));
+        assertEquals(clientProject.getId(), JSON.parseArray(resultStr).getJSONObject(0).getString("projectId"));
+        assertEquals(notExistSubProjectId, JSON.parseArray(resultStr).getJSONObject(0).getJSONArray("subprojectIds").getString(0));
     }
 }

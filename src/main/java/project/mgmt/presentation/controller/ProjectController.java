@@ -6,9 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import project.mgmt.application.dto.VerifyProjectExistResponse;
+import project.mgmt.application.dto.VerifyProjectExistDTO;
 import project.mgmt.application.service.ProjectApplicationService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,11 +22,10 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/invalid-project-ids")
-    public VerifyProjectExistResponse checkProjectExists(@RequestParam("projects") String projects) throws JsonProcessingException {
+    public List<VerifyProjectExistDTO> checkProjectExists(@RequestParam("projects") String projectAndSubprojectIds) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         TypeReference<Map<String, Set<String>>> typeRef
                 = new TypeReference<>() {};
-        Map<String, Set<String>> stringStringHashMap = objectMapper.readValue(projects, typeRef);
-        return this.projectApplicationService.checkProjectExists(stringStringHashMap);
+        return this.projectApplicationService.checkProjectExists(objectMapper.readValue(projectAndSubprojectIds, typeRef));
     }
 }
