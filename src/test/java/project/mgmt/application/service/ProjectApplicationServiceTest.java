@@ -1,5 +1,6 @@
 package project.mgmt.application.service;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.junit.Test;
@@ -26,11 +27,12 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
     @Test
     public void should_return_empty_collection_when_project_id_exists() {
         //given
-        Map<String, Set<String>> projectIds = Maps.newHashMap();
         String projectId = "project_id";
         String subProjectId1 = "sub_project_id1";
         String subProjectId2 = "sub_project_id2";
-        projectIds.put(projectId, Sets.newHashSet(subProjectId1, subProjectId2));
+        List<VerifyProjectExistDTO> projectIds = Lists.newArrayList();
+        projectIds.add(new VerifyProjectExistDTO(projectId,
+                Sets.newHashSet(subProjectId1, subProjectId2)));
 
         Project existInDB = new ClientProject();
         existInDB.setId(projectId);
@@ -51,11 +53,13 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
     @Test
     public void should_return_project_id_which_not_exists_with_all_sub_project_id_when_project_not_exists() {
         //given
-        Map<String, Set<String>> projectIds = Maps.newHashMap();
         String notExistsProjectId = "not_exists_project_id";
         String subProjectId1 = "sub_project_id1";
         String subProjectId2 = "sub_project_id2";
-        projectIds.put(notExistsProjectId, Sets.newHashSet(subProjectId1, subProjectId2));
+
+        List<VerifyProjectExistDTO> projectIds = Lists.newArrayList();
+        projectIds.add(new VerifyProjectExistDTO(notExistsProjectId,
+                Sets.newHashSet(subProjectId1, subProjectId2)));
 
         when(projectRepository.getProjectSubProjectIdMappingByIds(Sets.newHashSet(notExistsProjectId)))
                 .thenReturn(Maps.newHashMap());
@@ -75,11 +79,13 @@ public class ProjectApplicationServiceTest extends UnitBaseTest {
     @Test
     public void should_only_return_sub_project_id_which_not_exists_when_sub_project_not_exists() {
         //given
-        Map<String, Set<String>> projectIds = Maps.newHashMap();
         String projectId = "project_id";
         String subProjectId = "sub_project_id";
         String notExistsSubProjectId = "not_exists_sub_project_id";
-        projectIds.put(projectId, Sets.newHashSet(subProjectId, notExistsSubProjectId));
+
+        List<VerifyProjectExistDTO> projectIds = Lists.newArrayList();
+        projectIds.add(new VerifyProjectExistDTO(projectId,
+                Sets.newHashSet(subProjectId, notExistsSubProjectId)));
 
         Map<String, Set<String>> existsInDB = Maps.newHashMap();
         existsInDB.put(projectId, Sets.newHashSet(subProjectId));

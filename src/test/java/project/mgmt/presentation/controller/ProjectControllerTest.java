@@ -1,19 +1,18 @@
 package project.mgmt.presentation.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import project.mgmt.application.dto.VerifyProjectExistDTO;
 import project.mgmt.base.APIBaseTest;
 import project.mgmt.domain.model.project_mgmt.project.ClientProject;
 import project.mgmt.domain.model.project_mgmt.project.SubProject;
 import project.mgmt.infrastructure.persistence.hibernate.ClientProjectRepoJPA;
 import project.mgmt.infrastructure.persistence.hibernate.ProjectRepoJPA;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -42,8 +41,9 @@ public class ProjectControllerTest extends APIBaseTest {
 
         ClientProject saved = this.projectRepoJPA.save(clientProject);
 
-        Map<String, Set<String>> projectIdParams = Maps.newHashMap();
-        projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId()));
+        List<VerifyProjectExistDTO> projectIdParams = Lists.newArrayList();
+        projectIdParams.add(new VerifyProjectExistDTO(saved.getId(),
+                Sets.newHashSet(saved.getSubProjects().get(0).getId())));
 
         //when
         String resultStr = this.mockMvc.perform(get("/projects/invalid-project-ids?projects={projects}",
@@ -67,9 +67,9 @@ public class ProjectControllerTest extends APIBaseTest {
 
         ClientProject saved = this.clientProjectRepoJPA.save(clientProject);
 
-        Map<String, Set<String>> projectIdParams = Maps.newHashMap();
-        String notExistSubProjectId = "not exists sub project id";
-        projectIdParams.put(saved.getId(), Sets.newHashSet(saved.getSubProjects().get(0).getId(), notExistSubProjectId));
+        List<VerifyProjectExistDTO> projectIdParams = Lists.newArrayList();
+        projectIdParams.add(new VerifyProjectExistDTO(saved.getId(),
+                Sets.newHashSet(saved.getSubProjects().get(0).getId(), "not exists sub project id")));
 
         //when
         String resultStr = this.mockMvc.perform(get("/projects/invalid-project-ids?projects={projects}",
@@ -78,6 +78,6 @@ public class ProjectControllerTest extends APIBaseTest {
 
         //then
         assertEquals(clientProject.getId(), JSON.parseArray(resultStr).getJSONObject(0).getString("projectId"));
-        assertEquals(notExistSubProjectId, JSON.parseArray(resultStr).getJSONObject(0).getJSONArray("subprojectIds").getString(0));
+        assertEquals("not exists sub project id", JSON.parseArray(resultStr).getJSONObject(0).getJSONArray("subprojectIds").getString(0));
     }
 }

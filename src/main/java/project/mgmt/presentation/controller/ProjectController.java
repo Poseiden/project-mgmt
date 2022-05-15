@@ -10,8 +10,6 @@ import project.mgmt.application.dto.VerifyProjectExistDTO;
 import project.mgmt.application.service.ProjectApplicationService;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @RestController
 public class ProjectController {
@@ -24,8 +22,9 @@ public class ProjectController {
     @GetMapping("/projects/invalid-project-ids")
     public List<VerifyProjectExistDTO> checkProjectExists(@RequestParam("projects") String projectAndSubprojectIds) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        TypeReference<Map<String, Set<String>>> typeRef
+        TypeReference<List<VerifyProjectExistDTO>> typeRef
                 = new TypeReference<>() {};
+
         return this.projectApplicationService.checkProjectExists(objectMapper.readValue(projectAndSubprojectIds, typeRef));
     }
 }

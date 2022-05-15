@@ -18,29 +18,35 @@ public class ProjectApplicationService {
         this.projectRepository = projectRepository;
     }
 
-    public List<VerifyProjectExistDTO> checkProjectExists(Map<String, Set<String>> projectAndSubprojectIdParams) {
-        //planB: project and subproject mapping data can be stored in redis
+    public List<VerifyProjectExistDTO> checkProjectExists(List<VerifyProjectExistDTO> projectAndSubprojectIdParams) {
+        Map<String, Set<String>> existInDB = this.projectRepository.
+                getProjectSubProjectIdMappingByIds(getProjectIdSet(projectAndSubprojectIdParams));
 
         Map<String, Set<String>> result = Maps.newHashMap();
-        Map<String, Set<String>> existInDB = this.projectRepository.
-                getProjectSubProjectIdMappingByIds(projectAndSubprojectIdParams.keySet());
-
-        projectAndSubprojectIdParams.forEach((projectId, subProjectIds) -> {
-
-            if (!existInDB.containsKey(projectId)) {
-                result.put(projectId, subProjectIds);
-            } else {
-                Set<String> subProjectExistInDB = existInDB.get(projectId);
-                if (!subProjectIds.equals(subProjectExistInDB)) {
-                    subProjectIds.removeIf(subProjectExistInDB::contains);
-                    result.put(projectId, subProjectIds);
-                }
-            }
-        });
+        projectAndSubprojectIdParams.forEach(param -> compareToExistInDB(existInDB, result, param));
 
         return result.entrySet()
                 .stream()
                 .map(e -> new VerifyProjectExistDTO(e.getKey(), e.getValue()))
                 .collect(Collectors.toList());
+    }
+
+    private void compareToExistInDB(Map<String, Set<String>> existInDB, Map<String, Set<String>> result, VerifyProjectExistDTO param) {
+        String projectId = param.getProjectId();
+        Set<String> subprojectIds = param.getSubprojectIds();
+
+        if (!existInDB.containsKey(projectId)) {
+            result.put(projectId, subprojectIds);
+        } else {
+            Set<String> subProjectExistInDB = existInDB.get(projectId);
+            if (!subprojectIds.equals(subProjectExistInDB)) {
+                subprojectIds.removeIf(subProjectExistInDB::contains);
+                result.put(projectId, subprojectIds);
+            }
+        }
+    }
+
+    private Set<String> getProjectIdSet(List<VerifyProjectExistDTO> projectAndSubprojectIdParams) {
+        return projectAndSubprojectIdParams.stream().map(VerifyProjectExistDTO::getProjectId).collect(Collectors.toSet());
     }
 }
